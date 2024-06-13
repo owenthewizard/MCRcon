@@ -189,5 +189,5 @@ def mcrcon_cli():
             print("The connection could not be made as the server actively refused it.")
         except ConnectionError as e:
             print(e)
-    except KeyboardInterrupt:
-        pass
+    except (KeyboardInterrupt, EOFError):
+        print()
