@@ -10,6 +10,7 @@ import platform
 
 if platform.system() != "Windows":
     import signal
+    import readline
 
 
 class MCRconException(Exception):
