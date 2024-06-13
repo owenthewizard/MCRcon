@@ -131,6 +131,82 @@ class MCRcon(object):
         return result
 
 
+def rich_format(string):
+    replacements = {
+        # black
+        "§0": "\x1b[0;30m",
+        # dark_blue
+        "§1": "\x1b[0;34m",
+        # dark_green
+        "§2": "\x1b[0;32m",
+        # dark_aqua
+        "§3": "\x1b[0;36m",
+        # dark_red
+        "§4": "\x1b[0;31m",
+        # dark_purple
+        "§5": "\x1b[0;35m",
+        # gold
+        "§6": "\x1b[0;33m",
+        # gray
+        "§7": "\x1b[0;37m",
+        # dark_gray
+        "§8": "\x1b[0;90m",
+        # blue
+        "§9": "\x1b[0;94m",
+        # green
+        "§a": "\x1b[0;92m",
+        # aqua
+        "§b": "\x1b[0;96m",
+        # red
+        "§c": "\x1b[0;91m",
+        # light_purple
+        "§d": "\x1b[0;95m",
+        # yellow
+        "§e": "\x1b[0;93m",
+        # white
+        "§f": "\x1b[0;97m",
+        # minecoin_gold (bedrock)
+        "§g": "\x1b[38;2;221;214;5m",
+        # material_quartz (bedrock)
+        "§g": "\x1b[38;2;227;212;209m",
+        # material_iron (bedrock)
+        "§g": "\x1b[38;2;206;202;202m",
+        # material_netherite (bedrock)
+        "§g": "\x1b[38;2;68;58;59m",
+        # material_redstone (bedrock)
+        "§g": "\x1b[38;2;151;22;7m",
+        # material_copper (bedrock)
+        "§g": "\x1b[38;2;180;104;77m",
+        # material_gold (bedrock)
+        "§g": "\x1b[38;2;222;177;45m",
+        # material_emerald (bedrock)
+        "§g": "\x1b[38;2;17;160;54m",
+        # material_diamond (bedrock)
+        "§g": "\x1b[38;2;44;186;168m",
+        # material_lapis (bedrock)
+        "§g": "\x1b[38;2;33;73;123m",
+        # material_amethyst (bedrock)
+        "§g": "\x1b[38;2;154;92;198m",
+        # obfuscated
+        "§k": "\x1b[8m",
+        # bold
+        "§l": "\x1b[1m",
+        # strikethrough
+        "§m": "\x1b[9m",
+        # underline
+        "§n": "\x1b[4m",
+        # italic
+        "§o": "\x1b[3m",
+        # reset
+        "§r": "\x1b[0m",
+    }
+    for r in replacements.items():
+        string = string.replace(*r)
+    # reset color at EOM
+    string += "\x1b[0m"
+    return string
+
+
 def mcrcon_cli():
     try:
         parser = argparse.ArgumentParser(
@@ -176,7 +252,8 @@ def mcrcon_cli():
                     else:
                         try:
                             resp = mcr.command(cmd)
-                            print(resp)
+                            # colorify
+                            print(rich_format(resp))
                         except (ConnectionResetError, ConnectionAbortedError):
                             print(
                                 "The connection was terminated, the server may have been stopped."
